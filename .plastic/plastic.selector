@@ -1,0 +1,4 @@
+repository "GameNFT@unity_10F59075DFD028CCC622@cloud"
+  path "/"
+    br "/main"
+    co "/main"
