@@ -40,12 +40,31 @@ public class PlayeController : MonoBehaviour
         {
             Jump();
         }
+
+        //Attack
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            anim.SetTrigger("Attack");
+        }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            anim.SetTrigger("Skill1");
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            anim.SetTrigger("Skill2");
+        }
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            anim.SetTrigger("Skill3");
+        }
     }
 
     private void FixedUpdate()
     {
         rb.MovePosition(rb.position + moveDir * moveSpeed * Time.fixedDeltaTime);
     }
+
 
     private void Jump()
     {
