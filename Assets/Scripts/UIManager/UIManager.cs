@@ -23,7 +23,6 @@ public class UIManager : MonoBehaviour
     {
         // Ẩn ban đầu bằng scale 0
         if (_settingsPanel != null) _settingsPanel.transform.localScale = Vector3.zero;
-        if (_playGamePanel != null) _playGamePanel.transform.localScale = Vector3.zero;
     }
 
     //Play Game Panel
