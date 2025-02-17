@@ -6717,6 +6717,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d35c12b987d03224e9e79c41f934a315, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playGamePanel: {fileID: 1471393056}
   _settingsPanel: {fileID: 202995389}
 --- !u!4 &1351387023
 Transform:
@@ -8539,7 +8540,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1638480095}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1351387022}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ClosePlayGamePanel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1648688843
 GameObject:
   m_ObjectHideFlags: 0
