@@ -1,22 +1,22 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
 
 public class AuthManager : MonoBehaviour
 {
-    private string apiUrl = "http://localhost:3000/auth/login"; // API backend
+    private string registerUrl = "http://localhost:3000/register"; // URL API đăng ký
 
-    public void Login(string email, string password)
+    public void Register(string email, string walletAddress)
     {
-        StartCoroutine(LoginRequest(email, password));
+        StartCoroutine(RegisterUser(email, walletAddress));
     }
 
-    IEnumerator LoginRequest(string email, string password)
+    IEnumerator RegisterUser(string email, string walletAddress)
     {
-        string json = "{\"gmail\":\"" + email + "\", \"password\":\"" + password + "\"}";
+        string json = "{\"email\":\"" + email + "\", \"walletAddress\":\"" + walletAddress + "\"}";
         byte[] body = System.Text.Encoding.UTF8.GetBytes(json);
 
-        using (UnityWebRequest request = new UnityWebRequest(apiUrl, "POST"))
+        using (UnityWebRequest request = new UnityWebRequest(registerUrl, "POST"))
         {
             request.uploadHandler = new UploadHandlerRaw(body);
             request.downloadHandler = new DownloadHandlerBuffer();
@@ -26,11 +26,11 @@ public class AuthManager : MonoBehaviour
 
             if (request.result == UnityWebRequest.Result.Success)
             {
-                Debug.Log("Login success: " + request.downloadHandler.text);
+                Debug.Log("Registration success: " + request.downloadHandler.text);
             }
             else
             {
-                Debug.LogError("Login failed: " + request.error);
+                Debug.LogError("Registration failed: " + request.error);
             }
         }
     }
