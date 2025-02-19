@@ -1,4 +1,6 @@
+using Solana.Unity.Soar.Accounts;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -6,6 +8,11 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject _playGamePanel;
     [SerializeField] private GameObject _settingsPanel;
+    [SerializeField] private GameObject _shopPanel;
+    public GameObject[] tabs;
+    public Image[] tabBtns;
+    public Sprite inactiveTabBg, activeTabBg;
+    public Vector2 inactiveTabBtnSize, activeTabBtnSize;
 
     private void Awake()
     {
@@ -54,5 +61,42 @@ public class UIManager : MonoBehaviour
             LeanTween.scale(_settingsPanel, Vector3.zero, 0.3f).setEase(LeanTweenType.easeInBack)
                 .setOnComplete(() => _settingsPanel.SetActive(false));
         }
+    }
+
+    //Shop Panel
+    public void OpenShopPanel()
+    {
+        if (_shopPanel != null)
+        {
+            _shopPanel.SetActive(true);
+            _shopPanel.transform.localScale = Vector3.zero;
+            LeanTween.scale(_shopPanel, Vector3.one, 0.3f).setEase(LeanTweenType.easeOutBack);
+        }
+    }
+
+    public void CloseShopPanel()
+    {
+        if (_shopPanel != null)
+        {
+            LeanTween.scale(_shopPanel, Vector3.zero, 0.3f).setEase(LeanTweenType.easeInBack)
+                .setOnComplete(() => _shopPanel.SetActive(false));
+        }
+    }
+
+    public void SwitchTabs(int TabID)
+    {
+        foreach (GameObject go in tabs)
+        {
+            go.SetActive(false);
+        }
+        tabs[TabID].SetActive(true);
+
+        foreach (Image img in tabBtns)
+        {
+            img.sprite = inactiveTabBg;
+            img.rectTransform.sizeDelta = inactiveTabBtnSize;
+        }
+        tabBtns[TabID].sprite = activeTabBg;
+        tabBtns[TabID].rectTransform.sizeDelta = activeTabBtnSize;
     }
 }
