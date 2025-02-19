@@ -5,6 +5,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine.SceneManagement;
 
+
 public class APIManager : MonoBehaviour
 {
     // Địa chỉ API backend Node.js
@@ -14,6 +15,23 @@ public class APIManager : MonoBehaviour
     public TMP_InputField emailInput;  // InputField cho email
     public Button registerButton;  // Button đăng ký
     public Button loginButton;  // Button đăng nhập
+
+    [System.Serializable]
+    public class LoginResponse
+    {
+        public bool success;
+        public UserData data; // "data" phải trùng tên key trong JSON
+    }
+
+    [System.Serializable]
+    public class UserData
+    {
+        public int id;
+        public string gmail;
+        public string username;
+        public float coins;
+    }
+
 
     void Start()
     {
@@ -100,22 +118,37 @@ public class APIManager : MonoBehaviour
         string json = "{\"gmail\":\"" + email + "\"}";
         byte[] body = System.Text.Encoding.UTF8.GetBytes(json);
 
-        // Sử dụng POST request thay vì GET
         using (UnityWebRequest request = new UnityWebRequest(apiBaseUrl + "/users/login", "POST"))
         {
-            // Gửi dữ liệu JSON vào body của request
             request.uploadHandler = new UploadHandlerRaw(body);
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
 
-            // Gửi request và đợi kết quả
             yield return request.SendWebRequest();
 
-            // Kiểm tra kết quả
             if (request.result == UnityWebRequest.Result.Success)
             {
-                Debug.Log("User logged in: " + request.downloadHandler.text);
-                SceneManager.LoadScene("MainGame");
+                // 1. Lấy chuỗi JSON trả về
+                string responseText = request.downloadHandler.text;
+                Debug.Log("Login response: " + responseText);
+
+                // 2. Parse chuỗi JSON thành đối tượng C#
+                LoginResponse loginRes = JsonUtility.FromJson<LoginResponse>(responseText);
+
+                // 3. Kiểm tra success
+                if (loginRes != null && loginRes.success)
+                {
+                    // Lưu username vào PlayerInfo
+                    PlayerInfo.Username = loginRes.data.username;
+                    Debug.Log("User logged in: " + PlayerInfo.Username);
+
+                    // 4. Chuyển scene
+                    SceneManager.LoadScene("MainGame");
+                }
+                else
+                {
+                    Debug.LogError("Login failed: " + responseText);
+                }
             }
             else
             {
@@ -123,5 +156,6 @@ public class APIManager : MonoBehaviour
             }
         }
     }
+
 
 }
