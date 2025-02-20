@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _playGamePanel;
     [SerializeField] private GameObject _settingsPanel;
     [SerializeField] private GameObject _shopPanel;
+    [SerializeField] private GameObject _inventoryPanel;
     public GameObject[] tabs;
     public Image[] tabBtns;
     public Sprite inactiveTabBg, activeTabBg;
@@ -98,5 +99,16 @@ public class UIManager : MonoBehaviour
         }
         tabBtns[TabID].sprite = activeTabBg;
         tabBtns[TabID].rectTransform.sizeDelta = activeTabBtnSize;
+    }
+
+    //Inventory Panel
+    public void OpenInventoryPanel()
+    {
+        if (_inventoryPanel != null)
+        {
+            _inventoryPanel.SetActive(true);
+            _inventoryPanel.transform.localScale = Vector3.zero;
+            LeanTween.scale(_inventoryPanel, Vector3.one, 0.3f).setEase(LeanTweenType.easeOutBack);
+        }
     }
 }
